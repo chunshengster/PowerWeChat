@@ -2,8 +2,8 @@ package request
 
 type DateInfo struct {
 	Type           string `json:"type"`
-	BeginTimestamp int    `json:"begin_timestamp"`
-	EndTimestamp   int    `json:"end_timestamp"`
+	BeginTimestamp int    `json:"begin_timestamp,omitempty"`
+	EndTimestamp   int    `json:"end_timestamp,omitempty"`
 }
 
 type SKU struct {
@@ -13,7 +13,7 @@ type PayInfo struct {
 	SwipeCard *SwipeCard `json:"swipe_card,omitempty"`
 }
 type SwipeCard struct {
-	IsSwapCard bool `json:"is_swipe_card"`
+	IsSwapCard bool `json:"is_swipe_card,omitempty"`
 }
 type BaseInfo struct {
 	SubMerchantInfo   *SubMerchantID `json:"sub_merchant_info,omitempty"`
@@ -44,6 +44,7 @@ type BaseInfo struct {
 	PromotionUrl      string         `json:"promotion_url,omitempty"`
 	Source            string         `json:"source,omitempty"`
 	PayInfo           *PayInfo       `json:"pay_info,omitempty"`
+	IsPayAndQrcode    bool           `json:"is_pay_and_qrcode,omitempty"`
 }
 
 type UseCondition struct {
@@ -118,7 +119,7 @@ type MemberCard struct {
 	BonusCleared     string     `json:"bonus_cleared,omitempty"`
 	SupplyBonus      bool       `json:"supply_bonus,omitempty"`
 	BonusURL         string     `json:"bonus_url,omitempty"`
-	SupplyBalance    bool       `json:"supply_balance,omitempty"`
+	SupplyBalance    bool       `json:"supply_balance"`
 	BalanceRules     string     `json:"balance_rules,omitempty"`
 	BalanceURL       string     `json:"balance_url,omitempty"`
 	BonusRules       string     `json:"bonus_rules,omitempty"`
@@ -134,19 +135,17 @@ func (m *MemberCard) GetCardType() string {
 }
 
 type BonusRule struct {
-	CostMoneyUnit        int `json:"cost_money_unit,omitempty"`
-	IncreaseBonus        int `json:"increase_bonus,omitempty"`
-	MaxIncreaseBonus     int `json:"max_increase_bonus,omitempty"`
-	InitIncreaseBonus    int `json:"init_increase_bonus,omitempty"`
-	CostBonusUnit        int `json:"cost_bonus_unit,omitempty"`
-	ReduceMoney          int `json:"reduce_money,omitempty"`
-	LeastMoneyToUseBonus int `json:"least_money_to_use_bonus,omitempty"`
-	MaxReduceBonus       int `json:"max_reduce_bonus,omitempty"`
-	BaseInfo     *BaseInfo `json:"base_info"`
-	BonusCleared string    `json:"bonus_cleared"`
-	BonusRules   string    `json:"bonus_rules"`
-	Prerogative  string    `json:"prerogative"`
-
+	CostMoneyUnit        int    `json:"cost_money_unit,omitempty"`
+	IncreaseBonus        int    `json:"increase_bonus,omitempty"`
+	MaxIncreaseBonus     int    `json:"max_increase_bonus,omitempty"`
+	InitIncreaseBonus    int    `json:"init_increase_bonus,omitempty"`
+	CostBonusUnit        int    `json:"cost_bonus_unit,omitempty"`
+	ReduceMoney          int    `json:"reduce_money,omitempty"`
+	LeastMoneyToUseBonus int    `json:"least_money_to_use_bonus,omitempty"`
+	MaxReduceBonus       int    `json:"max_reduce_bonus,omitempty"`
+	BonusCleared         string `json:"bonus_cleared,omitempty"`
+	BonusRules           string `json:"bonus_rules,omitempty"`
+	Prerogative          string `json:"prerogative,omitempty"`
 }
 type ScenicTicket struct {
 	BaseInfo *BaseInfo `json:"base_info"`

@@ -7,6 +7,11 @@ import (
 	"crypto/sha1"
 	"errors"
 	"fmt"
+	"io"
+	"log"
+	"net/http"
+	"os"
+
 	fmt2 "github.com/ArtisanCloud/PowerLibs/v3/fmt"
 	"github.com/ArtisanCloud/PowerLibs/v3/http/contract"
 	"github.com/ArtisanCloud/PowerLibs/v3/http/helper"
@@ -18,11 +23,7 @@ import (
 	"github.com/ArtisanCloud/PowerWeChat/v3/src/kernel/power"
 	response2 "github.com/ArtisanCloud/PowerWeChat/v3/src/kernel/response"
 	"github.com/ArtisanCloud/PowerWeChat/v3/src/kernel/support"
-	"github.com/mitchellh/copystructure"
-	"io"
-	"log"
-	"net/http"
-	"os"
+	// "github.com/mitchellh/copystructure"
 )
 
 type BaseClient struct {
@@ -268,9 +269,9 @@ func (client *BaseClient) Request(ctx context.Context, endpoint string, params *
 
 		// set body json
 		if (*options)["body"] != nil {
-			//r := bytes.NewBufferString((*options)["body"].(string))
-			//df.Body(r)
-			df.Json((*options)["body"])
+			r := bytes.NewBufferString((*options)["body"].(string))
+			df.Body(r)
+			// df.Json((*options)["body"])
 		}
 
 		// set header
@@ -614,10 +615,10 @@ func (client *BaseClient) AuthSignRequest(context context.Context, config *kerne
 
 	var err error
 
-	originOptions, err := copystructure.Copy(options)
-	if err != nil {
-		return nil, err
-	}
+	// originOptions, err := copystructure.Copy(options)
+	// if err != nil {
+	// 	return nil, err
+	// }
 
 	base := &object.HashMap{}
 	isPartnerPay := context.Value("isPartnerPay")
@@ -665,8 +666,9 @@ func (client *BaseClient) AuthSignRequest(context context.Context, config *kerne
 		"headers": &object.HashMap{
 			"Authorization": authorization,
 		},
-		"body":     originOptions,
-		"signBody": signBody,
+		"body": signBody,
+		// "body":     originOptions,
+		// "signBody": signBody,
 	}, options)
 
 	return options, err

@@ -2,12 +2,13 @@ package card
 
 import (
 	"context"
+	"strings"
+
 	"github.com/ArtisanCloud/PowerLibs/v3/object"
 	"github.com/ArtisanCloud/PowerWeChat/v3/src/kernel"
 	response2 "github.com/ArtisanCloud/PowerWeChat/v3/src/kernel/response"
 	"github.com/ArtisanCloud/PowerWeChat/v3/src/officialAccount/card/request"
 	"github.com/ArtisanCloud/PowerWeChat/v3/src/officialAccount/card/response"
-	"strings"
 )
 
 type Client struct {
@@ -124,4 +125,57 @@ func (comp *Client) CreateQrCode(ctx context.Context, param request.RequestCreat
 
 	return result, err
 
+}
+
+// 创建子商户
+// https://developers.weixin.qq.com/doc/offiaccount/Cards_and_Offer/Third-party_developer_mode.html#1
+func (comp *Client) SumbitMerchant(ctx context.Context, param *request.SubMerchantSubmit) (*response.SubmerchantSubmit, error) {
+	result := &response.SubmerchantSubmit{}
+	_, err := comp.BaseClient.HttpPostJson(ctx, "card/submerchant/submit", param, nil, nil, result)
+	return result, err
+}
+
+// 更新子商户接口
+// https://developers.weixin.qq.com/doc/offiaccount/Cards_and_Offer/Third-party_developer_mode.html#_1-4-%E6%9B%B4%E6%96%B0%E5%AD%90%E5%95%86%E6%88%B7%E6%8E%A5%E5%8F%A3
+
+func (comp *Client) UpdateMerchant(ctx context.Context, param *request.SubMerchantSubmit) (*response.SubmerchantSubmit, error) {
+	result := &response.SubmerchantSubmit{}
+	_, err := comp.BaseClient.HttpPostJson(ctx, "card/submerchant/update", param, nil, nil, result)
+	return result, err
+}
+
+//卡券开放类目查询接口
+// https://developers.weixin.qq.com/doc/offiaccount/Cards_and_Offer/Third-party_developer_mode.html#_1-3%E5%8D%A1%E5%88%B8%E5%BC%80%E6%94%BE%E7%B1%BB%E7%9B%AE%E6%9F%A5%E8%AF%A2%E6%8E%A5%E5%8F%A3
+
+func (comp *Client) OpenCategory(ctx context.Context) (interface{}, error) {
+	result := &response.ProtocolCategory{}
+	_, err := comp.BaseClient.HttpPostJson(ctx, "card/getapplyprotocol", nil, nil, nil, result)
+	return result, err
+}
+
+// 查询Code接口
+// https://developers.weixin.qq.com/doc/offiaccount/Cards_and_Offer/Managing_Coupons_Vouchers_and_Cards.html#0
+func (comp *Client) GetCardCodeInfo(ctx context.Context, param *request.RequestCardCode) (*response.ResponseCardCode, error) {
+
+	result := &response.ResponseCardCode{}
+	_, err := comp.BaseClient.HttpPostJson(ctx, "card/code/get", param, nil, nil, result)
+	return result, err
+}
+
+//获取用户已领取卡券接口
+// https://developers.weixin.qq.com/doc/offiaccount/Cards_and_Offer/Managing_Coupons_Vouchers_and_Cards.html#1
+
+func (comp *Client) GetCarUserCarddList(ctx context.Context, param *request.RequestCardUserCardList) (*response.ResponseCardUserCardList, error) {
+	result := &response.ResponseCardUserCardList{}
+	_, err := comp.BaseClient.HttpPostJson(ctx, "card/user/getcardlist", param, nil, nil, result)
+	return result, err
+}
+
+// 更新会员信息
+// https://developers.weixin.qq.com/doc/offiaccount/Cards_and_Offer/Membership_Cards/Create_a_membership_card.html#_7%E6%9B%B4%E6%96%B0%E4%BC%9A%E5%91%98%E4%BF%A1%E6%81%AF
+
+func (comp *Client) UpdateUserMemberCard(ctx context.Context, param *request.RequestCardMemberCardUpdateUser) (*response.ResponseCardMemberCardUpdateUser, error) {
+	result := &response.ResponseCardMemberCardUpdateUser{}
+	_, err := comp.BaseClient.HttpPostJson(ctx, "card/membercard/updateuser", param, nil, nil, result)
+	return result, err
 }
