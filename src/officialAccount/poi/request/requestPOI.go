@@ -1,6 +1,5 @@
 package request
 
-
 type Photo struct {
 	PhotoUrl string `json:"photo_url"`
 }
@@ -11,6 +10,7 @@ type BusinessInfo struct {
 	BusinessName   string   `json:"business_name"`
 	BranchName     string   `json:"branch_name"`
 	Province       string   `json:"province"`
+	District       string   `json:"district"`
 	City           string   `json:"city"`
 	Address        string   `json:"address"`
 	Telephone      string   `json:"telephone"`

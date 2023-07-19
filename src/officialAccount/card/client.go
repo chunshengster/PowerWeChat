@@ -70,7 +70,7 @@ func (comp *Client) Get(ctx context.Context, cardID string) (*response.ResponseC
 
 // 批量查询卡券列表
 // https://developers.weixin.qq.com/doc/offiaccount/Cards_and_Offer/Managing_Coupons_Vouchers_and_Cards.html#2
-func (comp *Client) List(ctx context.Context, offset int, count int, statusList string) (*response.ResponseCardList, error) {
+func (comp *Client) List(ctx context.Context, offset int, count int, statusList []string) (*response.ResponseCardList, error) {
 	result := &response.ResponseCardList{}
 
 	param := object.HashMap{
@@ -174,8 +174,17 @@ func (comp *Client) GetCarUserCarddList(ctx context.Context, param *request.Requ
 // 更新会员信息
 // https://developers.weixin.qq.com/doc/offiaccount/Cards_and_Offer/Membership_Cards/Create_a_membership_card.html#_7%E6%9B%B4%E6%96%B0%E4%BC%9A%E5%91%98%E4%BF%A1%E6%81%AF
 
-func (comp *Client) UpdateUserMemberCard(ctx context.Context, param *request.RequestCardMemberCardUpdateUser) (*response.ResponseCardMemberCardUpdateUser, error) {
+func (comp *Client) UpdateUserMemberCardUser(ctx context.Context, param *request.RequestCardMemberCardUpdateUser) (*response.ResponseCardMemberCardUpdateUser, error) {
 	result := &response.ResponseCardMemberCardUpdateUser{}
 	_, err := comp.BaseClient.HttpPostJson(ctx, "card/membercard/updateuser", param, nil, nil, result)
+	return result, err
+}
+
+//拉取会员信息（积分查询）接口
+//https://developers.weixin.qq.com/doc/offiaccount/Cards_and_Offer/Membership_Cards/Manage_Member_Card.html#_8-1-%E6%8B%89%E5%8F%96%E4%BC%9A%E5%91%98%E4%BF%A1%E6%81%AF%EF%BC%88%E7%A7%AF%E5%88%86%E6%9F%A5%E8%AF%A2%EF%BC%89%E6%8E%A5%E5%8F%A3
+
+func (comp *Client) GetMemberCardUserinfo(ctx context.Context, param *request.RequestCardMemberCardUserinfo) (*response.ResponseCardMemberCardUserInfo, error) {
+	result := &response.ResponseCardMemberCardUserInfo{}
+	_, err := comp.BaseClient.HttpPostJson(ctx, "card/membercard/userinfo/get", param, nil, nil, result)
 	return result, err
 }

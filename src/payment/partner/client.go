@@ -4,6 +4,7 @@ import (
 	"context"
 	"errors"
 	"fmt"
+
 	"github.com/ArtisanCloud/PowerLibs/v3/object"
 	payment "github.com/ArtisanCloud/PowerWeChat/v3/src/payment/kernel"
 	"github.com/ArtisanCloud/PowerWeChat/v3/src/payment/partner/request"
@@ -178,4 +179,19 @@ func (comp *Client) Close(ctx context.Context, tradeNo string) (*http.Response, 
 	}, false, nil, nil)
 
 	return rs, err
+}
+
+// https://pay.weixin.qq.com/wiki/doc/apiv3_partner/apis/chapter4_1_9.shtml
+// 申请退款
+func (comp *Client) Refund(ctx context.Context, options *request.RequestPartnerRefund) (*response.ResponsePartnerRefund, error) {
+	result := &response.ResponsePartnerRefund{}
+	body, err := object.StructToHashMap(options)
+	if err != nil {
+		return nil, err
+	}
+
+	endpoint := comp.Wrap("/v3/refund/domestic/refunds")
+	_, err = comp.PlainRequest(ctx, endpoint, nil, http.MethodPost, body, false, nil, result)
+
+	return result, err
 }
